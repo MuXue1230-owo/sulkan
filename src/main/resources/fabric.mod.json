@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "sulkan",
+	"version": "${version}",
+	"name": "Sulkan",
+	"description": "",
+	"authors": [
+		"MUXUE1230"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "GNU General Public License v3.0",
+	"icon": "assets/sulkan/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"cn.mxst.sulkan.Sulkan"
+		]
+	},
+	"mixins": [
+		"sulkan.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+		"vulkanmod": ">=0.5.10"
+	}
+}

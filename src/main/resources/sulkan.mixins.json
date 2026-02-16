@@ -1,0 +1,18 @@
+{
+	"required": true,
+	"package": "cn.mxst.sulkan.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [],
+	"client": [
+		"DebugHudMixin",
+		"KeyboardMixin",
+		"VulkanModOptionScreenMixin",
+		"VulkanModShaderLoadUtilMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
