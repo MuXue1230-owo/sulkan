@@ -1,0 +1,43 @@
+[params]
+EXPOSURE_BASE = "1.0"
+
+[program.post_compute]
+enabled = "post.enable"
+
+[[segments]]
+name = "post_color_grade"
+index = 0
+inputs = ["Texture2D:scene_color", "DepthTexture:scene_depth"]
+outputs = ["Texture2D:pp_color", "DepthTexture:pp_depth"]
+vertex = "shaders/showcase/common/fullscreen.vsh"
+fragment = "shaders/showcase/post/color_grade.fsh"
+config = "shaders/showcase/post/color_grade.json"
+drawbuffers = ["scene_main", "scene_aux"]
+rendertargets = ["scene_main", "scene_aux"]
+ping_pong = "main"
+alpha_test = "greater 0.001"
+blend = "src_alpha one_minus_src_alpha one zero"
+
+[segments.params]
+EXPOSURE = "${EXPOSURE_BASE}"
+
+[segments.flip]
+scene_main = true
+scene_aux = false
+
+[segments.scale]
+colortex0 = [1.0, 1.0]
+colortex1 = [0.5, 0.5]
+
+[[segments]]
+name = "post_compute"
+index = 10
+inputs = ["Texture2D:pp_color", "DepthTexture:pp_depth"]
+outputs = ["Texture2D:post_color", "DepthTexture:post_depth"]
+compute = "shaders/showcase/post/post_compute.csh"
+ping_pong = "alt"
+work_groups = [8, 8, 1]
+work_groups_render = [1, 1, 1]
+images_read = ["colorimg0", "shadowcolorimg0"]
+images_write = ["colorimg1"]
+blend = false

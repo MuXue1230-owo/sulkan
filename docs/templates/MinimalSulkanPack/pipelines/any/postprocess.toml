@@ -1,0 +1,8 @@
+[[segments]]
+name = "blit"
+index = 0
+inputs = ["Texture2D:scene_color", "DepthTexture:scene_depth"]
+outputs = ["Texture2D:post_color", "DepthTexture:post_depth"]
+fragment = "shaders/minimal/post_tint.fsh"
+
+

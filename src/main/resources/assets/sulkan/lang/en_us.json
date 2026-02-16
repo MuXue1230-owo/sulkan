@@ -22,6 +22,7 @@
 	"sulkan.shaderpack_settings.title": "Shaderpack Settings: %s",
 	"sulkan.shaderpack_settings.open": "Open",
 	"sulkan.shaderpack_settings.status.saved": "Shaderpack settings saved",
+	"sulkan.shaderpack_settings.status.profile_applied": "Profile applied: %s",
 	"sulkan.shaderpack_settings.status.reloading": "Reloading resources...",
 	"sulkan.shaderpack_settings.status.reloaded": "Resources reloaded",
 	"key.category.sulkan.debug": "Sulkan Debug",
@@ -29,6 +30,7 @@
 	"sulkan.debug.reload.started": "Reloading Sulkan shaderpack resources...",
 	"sulkan.debug.reload.finished": "Sulkan shaderpack resources reloaded.",
 	"sulkan.debug.reload.failed": "Failed to reload Sulkan shaderpack resources.",
+	"sulkan.debug.reload.disabled": "Sulkan shaderpack hot reload is disabled.",
 	"sulkan.debug.reload.invalid": "Selected shaderpack is invalid. Falling back to default shaders.",
 	"sulkan.debug.open_list": "Opened Sulkan shaderpack list.",
 	"sulkan.debug.info.header": "Sulkan",
@@ -43,6 +45,9 @@
 	"sulkan.debug.info.cache.shaderpack_file": "Shaderpack file: %s/%s hit (miss %s, %s)",
 	"sulkan.debug.info.cache.uri_source": "URI source: %s/%s hit (miss %s, %s)",
 	"sulkan.debug.info.cache.world_candidates": "World candidates: %s/%s hit (miss %s, %s)",
+	"sulkan.debug.info.cache.pipeline_lookup": "Pipeline lookup: %s/%s hit (miss %s, %s)",
+	"sulkan.debug.info.pipeline.resolve": "Pipeline resolve (segment hits): %s",
+	"sulkan.debug.info.pipeline.world_candidates": "Pipeline world chain: %s",
 	"sulkan.debug.info.hotkeys": "Hotkeys: %s reload, %s shaderpacks",
 	"sulkan.debug.info.none": "(none)"
 }

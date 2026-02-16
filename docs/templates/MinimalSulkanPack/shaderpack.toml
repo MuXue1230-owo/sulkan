@@ -1,0 +1,16 @@
+[shaderpack]
+name = "Minimal Sulkan Pack"
+version = "0.1.0"
+spec_version = "1.0.0"
+
+[stages]
+shadow = false
+gbuffer = false
+lighting = false
+translucent = false
+postprocess = true
+final = false
+
+[features]
+sulkan_config_options = false
+

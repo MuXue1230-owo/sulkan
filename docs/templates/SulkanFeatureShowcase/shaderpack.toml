@@ -1,0 +1,222 @@
+[shaderpack]
+name = "Sulkan Feature Showcase"
+version = "0.2.0"
+spec_version = "1.0.0"
+
+[stages]
+shadow = false
+gbuffer = true
+lighting = false
+translucent = false
+postprocess = true
+final = false
+
+[features]
+sulkan_config_options = true
+auto_extract_options = true
+
+[runtime]
+hot_reload = true
+
+[runtime.debug]
+save_shaders = false
+
+[global]
+render_quality = 1.0
+cloud_style = "showcase"
+
+[global.weather]
+rain_boost = 0.15
+storm_boost = 0.35
+
+[textures.any]
+Sampler0 = "resource:minecraft:textures/block/stone.png"
+Sampler1 = "resource:minecraft:textures/block/gold_block.png"
+
+[textures.postprocess]
+DiffuseSampler = "resource:minecraft:textures/block/white_concrete.png"
+BlurSampler = "resource:minecraft:textures/block/glass.png"
+
+[textures.translucent]
+DiffuseSampler = "shaderpack:textures/showcase/checker.png"
+
+[ui]
+sliders = ["debug.iterations", "debug.saturation"]
+
+[ui.screen]
+main = ["post", "debug"]
+post = ["post.enable", "post.grade", "post.strength", "post.variant"]
+debug = ["debug.iterations", "debug.saturation", "debug.banner", "debug.terrain_tint", "debug.auto_extracted"]
+
+[ui.screen_columns]
+main = 1
+post = 1
+debug = 2
+
+[ui.profile.default]
+"post.enable" = true
+"post.grade" = "warm"
+"post.strength" = "soft"
+"debug.iterations" = 2
+"debug.saturation" = 1.0
+"debug.terrain_tint" = "debug_white"
+"debug.auto_extracted" = true
+
+[ui.profile.cinematic]
+"post.enable" = true
+"post.grade" = "cool"
+"post.strength" = "strong"
+"debug.iterations" = 4
+"debug.saturation" = 1.2
+"debug.terrain_tint" = "normal"
+"debug.auto_extracted" = false
+
+[ui.profile.debug]
+"post.enable" = true
+"post.grade" = "neutral"
+"post.strength" = "soft"
+"debug.iterations" = 8
+"debug.saturation" = 2.0
+"debug.terrain_tint" = "debug_white"
+"debug.auto_extracted" = true
+
+[ids.blocks]
+"minecraft:grass_block" = 1001
+"minecraft:stone" = 1002
+
+[ids.items]
+"minecraft:diamond_sword" = 2001
+"minecraft:spyglass" = 2002
+
+[ids.entities]
+"minecraft:zombie" = 3001
+"minecraft:item" = 3002
+
+[layer]
+"minecraft:oak_leaves" = "cutout"
+"minecraft:glass" = "translucent"
+"minecraft:stone" = "solid"
+
+[[resources]]
+name = "scene_color"
+type = "Texture2D"
+resolution = "output"
+format = "rgba16f"
+lifetime = "per-frame"
+
+[[resources]]
+name = "scene_depth"
+type = "DepthTexture"
+resolution = "output"
+format = "depth24"
+lifetime = "per-frame"
+
+[[resources]]
+name = "history_color"
+type = "Texture2D"
+resolution = "internal"
+format = "rgba8"
+lifetime = "temporal"
+
+[[resources]]
+name = "motion_history"
+type = "MotionTexture"
+resolution = "fixed"
+format = "rg16f"
+lifetime = "persistent"
+
+[extensions]
+required = []
+optional = ["showcase.debug"]
+
+[options.post]
+type = "page"
+label_key = "showcase.option.post.label"
+description_key = "showcase.option.post.desc"
+
+[options.post.options.enable]
+type = "bool"
+default = true
+target = "shaders/showcase/post/color_grade.fsh"
+key = "post.enable"
+label_key = "showcase.option.post.enable.label"
+description_key = "showcase.option.post.enable.desc"
+
+[options.post.options.grade]
+type = "enum"
+values = ["neutral", "warm", "cool"]
+render_values = ["vec3(1.00, 1.00, 1.00)", "vec3(1.05, 1.00, 0.95)", "vec3(0.95, 1.00, 1.05)"]
+default = "warm"
+target = "shaders/showcase/post/color_grade.fsh"
+key = "post.grade"
+label_key = "showcase.option.post.grade.label"
+description_key = "showcase.option.post.grade.desc"
+
+[options.post.options.strength]
+type = "enum"
+values = ["off", "soft", "strong"]
+render_values = ["0.0", "0.35", "0.65"]
+default = "soft"
+target = "shaders/showcase/post/color_grade.fsh"
+key = "post.strength"
+label_key = "showcase.option.post.strength.label"
+description_key = "showcase.option.post.strength.desc"
+
+[options.post.options.variant]
+type = "enum"
+values = ["default", "vibrant", "debug"]
+render_values = [
+  "shaders/showcase/post/color_grade.fsh",
+  "shaders/showcase/post/color_grade_vibrant.fsh",
+  "shaders/showcase/post/color_grade_debug.fsh"
+]
+default = "default"
+target = "shaders/showcase/post/color_grade.fsh"
+key = "[use_file]"
+label_key = "showcase.option.post.variant.label"
+description_key = "showcase.option.post.variant.desc"
+
+[options.debug]
+type = "page"
+label_key = "showcase.option.debug.label"
+description_key = "showcase.option.debug.desc"
+
+[options.debug.options.iterations]
+type = "int"
+default = 2
+min = 1
+max = 8
+step = 1
+target = "shaders/showcase/post/color_grade.fsh"
+key = "debug.iterations"
+label_key = "showcase.option.debug.iterations.label"
+description_key = "showcase.option.debug.iterations.desc"
+
+[options.debug.options.saturation]
+type = "float"
+default = 1.0
+min = 0.0
+max = 2.0
+step = 0.05
+target = "shaders/showcase/post/color_grade.fsh"
+key = "debug.saturation"
+label_key = "showcase.option.debug.saturation.label"
+description_key = "showcase.option.debug.saturation.desc"
+
+[options.debug.options.banner]
+type = "string"
+default = "SHOWCASE"
+target = "shaders/showcase/post/color_grade.fsh"
+key = "debug.banner"
+label_key = "showcase.option.debug.banner.label"
+description_key = "showcase.option.debug.banner.desc"
+
+[options.debug.options.terrain_tint]
+type = "enum"
+values = ["normal", "debug_white"]
+render_values = ["vec3(1.0, 1.0, 1.0)", "vec3(2.0, 2.0, 2.0)"]
+default = "debug_white"
+target = "shaders/showcase/gbuffer/terrain_visible.fsh"
+key = "terrain.tint"
+label_key = "showcase.option.debug.terrain_tint.label"
+description_key = "showcase.option.debug.terrain_tint.desc"

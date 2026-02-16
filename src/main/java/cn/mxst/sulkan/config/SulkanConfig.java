@@ -20,6 +20,8 @@ public final class SulkanConfig {
 
 	public boolean enableShaderpack = false;
 	public String selectedShaderpack = "";
+	public Boolean enableHotReload = true;
+	public Boolean debugExportShaders = false;
 
 	private SulkanConfig() {
 	}
@@ -31,6 +33,7 @@ public final class SulkanConfig {
 		return instance;
 	}
 
+	@SuppressWarnings("null")
 	public static void load() {
 		SulkanConfig config = null;
 		if (Files.exists(CONFIG_PATH)) {
@@ -67,6 +70,12 @@ public final class SulkanConfig {
 	private void normalize() {
 		if (selectedShaderpack == null) {
 			selectedShaderpack = "";
+		}
+		if (enableHotReload == null) {
+			enableHotReload = true;
+		}
+		if (debugExportShaders == null) {
+			debugExportShaders = false;
 		}
 	}
 }

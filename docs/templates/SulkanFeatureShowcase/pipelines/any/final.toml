@@ -1,0 +1,7 @@
+[[segments]]
+name = "final_stub"
+index = 0
+inputs = ["Texture2D:post_color", "DepthTexture:post_depth", "MotionTexture:motion_vectors"]
+outputs = ["Texture2D:final_color", "DepthTexture:final_depth", "MotionTexture:final_motion"]
+vertex = "shaders/showcase/common/fullscreen.vsh"
+fragment = "shaders/showcase/post/final_visible.fsh"

@@ -13,7 +13,11 @@ public final class ShaderpackMetadata {
 	public final ShaderpackFeatures features;
 	public final ShaderpackExtensions extensions;
 	public final List<ShaderpackOptionDecl> options;
-	public final Map<String, Map<String, ShaderpackPipelineProgram>> pipelinePrograms;
+	public final ShaderpackGlobalSettings globalSettings;
+	public final ShaderpackTextureBindings textureBindings;
+	public final ShaderpackUiLayout uiLayout;
+	public final ShaderpackIdMappings idMappings;
+	public final Map<String, Map<String, List<ShaderpackPipelineProgram>>> pipelinePrograms;
 	public final Map<String, String> translations;
 	public final Path sourcePath;
 
@@ -26,7 +30,11 @@ public final class ShaderpackMetadata {
 		ShaderpackFeatures features,
 		ShaderpackExtensions extensions,
 		List<ShaderpackOptionDecl> options,
-		Map<String, Map<String, ShaderpackPipelineProgram>> pipelinePrograms,
+		ShaderpackGlobalSettings globalSettings,
+		ShaderpackTextureBindings textureBindings,
+		ShaderpackUiLayout uiLayout,
+		ShaderpackIdMappings idMappings,
+		Map<String, Map<String, List<ShaderpackPipelineProgram>>> pipelinePrograms,
 		Map<String, String> translations,
 		Path sourcePath
 	) {
@@ -38,6 +46,10 @@ public final class ShaderpackMetadata {
 		this.features = features;
 		this.extensions = extensions;
 		this.options = options;
+		this.globalSettings = globalSettings;
+		this.textureBindings = textureBindings;
+		this.uiLayout = uiLayout;
+		this.idMappings = idMappings;
 		this.pipelinePrograms = pipelinePrograms;
 		this.translations = translations;
 		this.sourcePath = sourcePath;

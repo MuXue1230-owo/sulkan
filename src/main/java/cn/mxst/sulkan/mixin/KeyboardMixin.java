@@ -66,6 +66,10 @@ public abstract class KeyboardMixin {
 	@Unique
 	private void sulkan$reloadShaderpackAndPipelines() {
 		SulkanConfig config = SulkanConfig.get();
+		if (!Boolean.TRUE.equals(config.enableHotReload) || !ShaderpackManager.isRuntimeHotReloadEnabled()) {
+			this.sulkan$showDebugMessage(Text.translatable("sulkan.debug.reload.disabled"), true);
+			return;
+		}
 		if (config.enableShaderpack) {
 			ShaderpackLoadResult result = ShaderpackManager.applySelectedShaderpack(config.selectedShaderpack);
 			if (!result.isValid() && config.selectedShaderpack != null && !config.selectedShaderpack.isBlank()) {

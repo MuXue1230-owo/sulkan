@@ -1,0 +1,7 @@
+[[segments]]
+name = "shadow_stub"
+index = 0
+inputs = ["Buffer:scene_geometry", "Buffer:light_params"]
+outputs = ["DepthTexture:shadow_map"]
+vertex = "shaders/minimal/stub.vsh"
+fragment = "shaders/minimal/stub.fsh"

@@ -173,6 +173,7 @@ public final class SulkanShaderpackScreen extends Screen {
 		boolean hasSelection = this.pendingSelection != null && !this.pendingSelection.isBlank();
 		ShaderpackCandidate candidate = hasSelection ? this.candidateById.get(this.pendingSelection) : null;
 		boolean validSelection = candidate != null && candidate.isValid();
+		@SuppressWarnings("null")
 		boolean hasConfigOptions = validSelection && candidate.loadResult().metadata().features.sulkanConfigOptions();
 		this.settingsButton.active = hasConfigOptions;
 		this.applyButton.active = validSelection && !this.pendingSelection.equals(config.selectedShaderpack);

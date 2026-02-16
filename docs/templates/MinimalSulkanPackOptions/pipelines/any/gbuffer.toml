@@ -1,0 +1,7 @@
+[[segments]]
+name = "gbuffer_stub"
+index = 0
+inputs = ["Buffer:scene_geometry", "Buffer:material_params", "Buffer:camera_matrices"]
+outputs = ["Texture2D:gbuffer_albedo", "Texture2D:gbuffer_normal", "DepthTexture:gbuffer_depth"]
+vertex = "shaders/minimal/stub.vsh"
+fragment = "shaders/minimal/stub.fsh"
