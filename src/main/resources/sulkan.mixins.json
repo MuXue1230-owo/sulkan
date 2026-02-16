@@ -5,6 +5,7 @@
 	"mixins": [],
 	"client": [
 		"DebugHudMixin",
+		"FabricModNioPackResourcesMixin",
 		"KeyboardMixin",
 		"VulkanModDefaultMainPassMixin",
 		"VulkanModOptionScreenMixin",

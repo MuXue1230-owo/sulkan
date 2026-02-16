@@ -36,7 +36,10 @@ public record ShaderpackPipelineProgram(
 		Map.entry("gbuffer", List.of("shaders/basic/terrain/*")),
 		Map.entry("lighting", List.of("shaders/basic/clouds/*")),
 		Map.entry("translucent", List.of("shaders/core/rendertype_item_entity_translucent_cull/*")),
-		Map.entry("postprocess", List.of("shaders/basic/blit/*")),
+		Map.entry("postprocess", List.of(
+			"shaders/basic/blit/*",
+			"shaders/post/blit/*"
+		)),
 		Map.entry("final", List.of(
 			"shaders/core/screenquad/*",
 			"shaders/core/animate_sprite/*",

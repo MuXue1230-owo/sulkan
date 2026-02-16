@@ -58,6 +58,7 @@ public final class ShaderpackShaderApplier {
 	private static final int MAX_EXPORTED_SHADERS = 4096;
 	private static final Set<String> exportedShaderKeys = ConcurrentHashMap.newKeySet();
 	private static final Set<String> exportWriteErrors = ConcurrentHashMap.newKeySet();
+	private static final Set<String> replacementLogs = ConcurrentHashMap.newKeySet();
 	private static volatile ApplierCache cache = ApplierCache.EMPTY;
 
 	private ShaderpackShaderApplier() {
@@ -67,6 +68,7 @@ public final class ShaderpackShaderApplier {
 		cache = ApplierCache.EMPTY;
 		exportedShaderKeys.clear();
 		exportWriteErrors.clear();
+		replacementLogs.clear();
 	}
 
 	public static CacheStats getCacheStats() {
@@ -169,8 +171,27 @@ public final class ShaderpackShaderApplier {
 		if (pipelineProgram != null && isShaderTextPath(normalizedTarget.toLowerCase(Locale.ROOT))) {
 			source = injectPipelineInterfaceDefines(source, pipelineProgram, normalizedTarget);
 		}
+		logReplacementOnce(normalizedTarget, sourcePath, pipelineProgram);
 		maybeExportShader(normalizedTarget, sourcePath, pipelineProgram, source);
 		return new ByteArrayInputStream(source.getBytes(StandardCharsets.UTF_8));
+	}
+
+	private static void logReplacementOnce(String requestPath, String resolvedPath, ShaderpackPipelineProgram program) {
+		String request = normalizePath(requestPath);
+		String resolved = normalizePath(resolvedPath);
+		String stage = program == null ? "none" : program.stage();
+		String segment = program == null ? "none" : program.segmentName();
+		String key = request + "->" + resolved + "|" + stage + "|" + segment;
+		if (!replacementLogs.add(key)) {
+			return;
+		}
+		Sulkan.LOGGER.info(
+			"Shaderpack replace '{}' -> '{}' (stage='{}', segment='{}').",
+			request,
+			resolved.isBlank() ? request : resolved,
+			stage,
+			segment
+		);
 	}
 
 	private static String extractRelativePath(String uriString) {
