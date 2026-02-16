@@ -1,0 +1,8 @@
+[[segments]]
+name = "translucent_stub"
+index = 0
+inputs = ["Texture2D:lit_color", "DepthTexture:gbuffer_depth", "Buffer:translucent_geometry"]
+outputs = ["Texture2D:scene_color"]
+vertex = "shaders/showcase/common/fullscreen.vsh"
+fragment = "shaders/showcase/common/pass.fsh"
+geometry = "shaders/showcase/common/pass.gsh"

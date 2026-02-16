@@ -54,6 +54,11 @@ public abstract class DebugHudMixin {
 		String sourcePack = activePath == null ? noneLabel : activePath.getFileName().toString();
 		ShaderpackShaderApplier.CacheStats shaderCacheStats = ShaderpackShaderApplier.getCacheStats();
 		ShaderpackManager.CacheStats worldCacheStats = ShaderpackManager.getWorldCandidateCacheStats();
+		ShaderpackManager.PipelineLookupStats pipelineLookupStats = ShaderpackManager.getPipelineLookupStats();
+		String worldCandidates = String.join(", ", ShaderpackManager.getCachedWorldCandidates());
+		if (worldCandidates.isBlank()) {
+			worldCandidates = "any";
+		}
 
 		KeyBinding openListKey = SulkanDebugHotkeys.getOpenShaderpackListKey();
 		String modifierKey = this.client.options.debugModifierKey.getBoundKeyLocalizedText().getString();
@@ -106,6 +111,22 @@ public abstract class DebugHudMixin {
 				sulkan$formatHitRate(worldCacheStats.hits(), worldCacheStats.requests())
 			).getString()
 		);
+		lines.add(
+			Text.translatable(
+				"sulkan.debug.info.cache.pipeline_lookup",
+				pipelineLookupStats.cacheHits(),
+				pipelineLookupStats.requests(),
+				Math.max(0L, pipelineLookupStats.requests() - pipelineLookupStats.cacheHits()),
+				sulkan$formatHitRate(pipelineLookupStats.cacheHits(), pipelineLookupStats.requests())
+			).getString()
+		);
+		lines.add(
+			Text.translatable(
+				"sulkan.debug.info.pipeline.resolve",
+				pipelineLookupStats.segmentHits()
+			).getString()
+		);
+		lines.add(Text.translatable("sulkan.debug.info.pipeline.world_candidates", worldCandidates).getString());
 		lines.add(Text.translatable("sulkan.debug.info.hotkeys", modifierKey + "+R", modifierKey + "+" + openListKeyName).getString());
 		return lines;
 	}

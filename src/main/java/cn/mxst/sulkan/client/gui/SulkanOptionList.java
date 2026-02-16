@@ -17,31 +17,41 @@ public final class SulkanOptionList extends GuiElement {
 	private Entry focused;
 	private boolean scrolling = false;
 	private float scrollAmount = 0.0f;
+	private int columns = 1;
 	private int itemWidth;
 	private int itemHeight;
 	private int itemMargin;
+	private int columnGap;
 	private int totalItemHeight;
 	private int listLength = 0;
 
 	public SulkanOptionList(int x, int y, int width, int height, int itemHeight) {
 		this.setPosition(x, y, width, height);
-		this.itemWidth = (int)(0.95f * width);
 		this.itemHeight = itemHeight;
 		this.itemMargin = 3;
+		this.columnGap = 6;
 		this.totalItemHeight = this.itemHeight + this.itemMargin;
+		this.itemWidth = Math.max(32, (int)(0.95f * width));
 	}
 
 	public void setEntries(List<SulkanOptionEntryWidget> entries) {
+		this.setEntries(entries, 1);
+	}
+
+	public void setEntries(List<SulkanOptionEntryWidget> entries, int columns) {
+		this.columns = Math.max(1, columns);
 		this.clearEntries();
+		this.recalculateItemWidth();
 		for (SulkanOptionEntryWidget widget : entries) {
-			widget.setDimensions(this.x, 0, this.itemWidth, this.itemHeight);
+			widget.setDimensions(0, 0, this.itemWidth, this.itemHeight);
 			this.addEntry(new Entry(widget, this.itemMargin));
 		}
+		this.recalculateListLength();
+		this.updateEntryPositions();
 	}
 
 	private void addEntry(Entry entry) {
 		this.children.add(entry);
-		this.listLength += entry.getTotalHeight();
 	}
 
 	public void clearEntries() {
@@ -85,6 +95,7 @@ public final class SulkanOptionList extends GuiElement {
 		if (!this.isMouseOver(mouseX, mouseY)) {
 			return null;
 		}
+		this.updateEntryPositions();
 		for (Entry entry : this.children) {
 			VAbstractWidget widget = entry.widget;
 			if (widget == null || !widget.isMouseOver(mouseX, mouseY)) {
@@ -96,14 +107,18 @@ public final class SulkanOptionList extends GuiElement {
 	}
 
 	private void renderList(int mouseX, int mouseY) {
-		int rowTop = this.y - (int)this.getScrollAmount();
+		this.updateEntryPositions();
 		for (Entry entry : this.children) {
+			VAbstractWidget widget = entry.widget;
+			if (widget == null) {
+				continue;
+			}
+			int rowTop = widget.getY();
 			int rowBottom = rowTop + this.itemHeight;
 			if (rowBottom >= this.y && rowTop <= this.y + this.height) {
 				boolean updateState = this.focused == null;
-				entry.render(rowTop, mouseX, mouseY, updateState);
+				entry.render(mouseX, mouseY, updateState);
 			}
-			rowTop += entry.getTotalHeight();
 		}
 	}
 
@@ -136,6 +151,7 @@ public final class SulkanOptionList extends GuiElement {
 		if (x > (double)this.getScrollbarPosition() || x < (double)this.x) {
 			return null;
 		}
+		this.updateEntryPositions();
 		for (Entry entry : this.children) {
 			VAbstractWidget widget = entry.widget;
 			if (widget == null) {
@@ -223,29 +239,18 @@ public final class SulkanOptionList extends GuiElement {
 
 	private static final class Entry implements Element {
 		final SulkanOptionEntryWidget widget;
-		final int margin;
-
 		private Entry(SulkanOptionEntryWidget widget, int margin) {
 			this.widget = widget;
-			this.margin = margin;
 		}
 
-		public void render(int y, int mouseX, int mouseY, boolean updateState) {
+		public void render(int mouseX, int mouseY, boolean updateState) {
 			if (this.widget == null) {
 				return;
 			}
-			this.widget.y = y;
 			if (updateState) {
 				this.widget.updateState(mouseX, mouseY);
 			}
 			this.widget.render(mouseX, mouseY);
-		}
-
-		public int getTotalHeight() {
-			if (this.widget != null) {
-				return this.widget.getHeight() + this.margin;
-			}
-			return this.margin;
 		}
 
 		public boolean mouseClicked(Click event, boolean bl) {
@@ -267,6 +272,40 @@ public final class SulkanOptionList extends GuiElement {
 		@Override
 		public boolean isFocused() {
 			return this.widget.isFocused();
+		}
+	}
+
+	private void recalculateItemWidth() {
+		if (this.columns <= 1) {
+			this.itemWidth = Math.max(32, (int)(0.95f * this.width));
+			return;
+		}
+		int scrollbarReserved = 8;
+		int available = Math.max(32, this.width - scrollbarReserved);
+		int totalGap = this.columnGap * (this.columns - 1);
+		this.itemWidth = Math.max(32, (available - totalGap) / this.columns);
+	}
+
+	private void recalculateListLength() {
+		int rows = this.columns <= 1
+			? this.children.size()
+			: (this.children.size() + this.columns - 1) / this.columns;
+		this.listLength = Math.max(0, rows * this.totalItemHeight);
+	}
+
+	private void updateEntryPositions() {
+		int baseY = this.y - (int)this.getScrollAmount();
+		for (int i = 0; i < this.children.size(); i++) {
+			Entry entry = this.children.get(i);
+			VAbstractWidget widget = entry.widget;
+			if (widget == null) {
+				continue;
+			}
+			int row = this.columns <= 1 ? i : i / this.columns;
+			int column = this.columns <= 1 ? 0 : i % this.columns;
+			int x = this.x + column * (this.itemWidth + this.columnGap);
+			int y = baseY + row * this.totalItemHeight;
+			widget.setDimensions(x, y, this.itemWidth, this.itemHeight);
 		}
 	}
 }

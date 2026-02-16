@@ -1,9 +1,10 @@
 package cn.mxst.sulkan.shaderpack;
 
 public record ShaderpackFeatures(
-	boolean sulkanConfigOptions
+	boolean sulkanConfigOptions,
+	boolean autoExtractOptions
 ) {
 	public static ShaderpackFeatures defaults() {
-		return new ShaderpackFeatures(false);
+		return new ShaderpackFeatures(false, false);
 	}
 }

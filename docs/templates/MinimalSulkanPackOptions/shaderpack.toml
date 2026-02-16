@@ -1,0 +1,34 @@
+[shaderpack]
+name = "Minimal Sulkan Pack (Options)"
+version = "0.1.0"
+spec_version = "1.0.0"
+
+[stages]
+shadow = false
+gbuffer = false
+lighting = false
+translucent = false
+postprocess = true
+final = false
+
+[features]
+sulkan_config_options = true
+
+[options.enable_warm]
+type = "bool"
+default = true
+target = "shaders/minimal/post_tint.fsh"
+key = "warm.enable"
+label = "Enable Warm Tint"
+description = "Toggle warm postprocess tint."
+
+[options.warm_strength]
+type = "enum"
+values = ["low", "medium", "high"]
+render_values = ["0.5", "1.0", "1.5"]
+default = "medium"
+target = "shaders/minimal/post_tint.fsh"
+key = "warm.strength"
+label = "Warm Strength"
+description = "Strength of warm tint."
+

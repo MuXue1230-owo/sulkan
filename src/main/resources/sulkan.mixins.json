@@ -6,8 +6,10 @@
 	"client": [
 		"DebugHudMixin",
 		"KeyboardMixin",
+		"VulkanModDefaultMainPassMixin",
 		"VulkanModOptionScreenMixin",
-		"VulkanModShaderLoadUtilMixin"
+		"VulkanModShaderLoadUtilMixin",
+		"VulkanModTextureSelectorMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

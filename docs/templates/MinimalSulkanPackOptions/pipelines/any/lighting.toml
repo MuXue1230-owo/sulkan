@@ -1,0 +1,6 @@
+[[segments]]
+name = "lighting_stub"
+index = 0
+inputs = ["Texture2D:gbuffer_albedo", "Texture2D:gbuffer_normal", "DepthTexture:gbuffer_depth", "DepthTexture:shadow_map"]
+outputs = ["Texture2D:lit_color"]
+fragment = "shaders/minimal/stub.fsh"

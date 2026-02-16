@@ -1,0 +1,6 @@
+[[segments]]
+name = "gbuffer_stub"
+index = 0
+inputs = ["Buffer:scene_geometry", "Buffer:material_params", "Buffer:camera_matrices"]
+outputs = ["Texture2D:gbuffer_albedo", "Texture2D:gbuffer_normal", "DepthTexture:gbuffer_depth"]
+fragment = "shaders/showcase/gbuffer/terrain_visible.fsh"

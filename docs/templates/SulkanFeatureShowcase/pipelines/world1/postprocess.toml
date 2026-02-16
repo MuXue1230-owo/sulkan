@@ -1,0 +1,7 @@
+[[segments]]
+name = "world1_post"
+index = 0
+inputs = ["Texture2D:scene_color", "DepthTexture:scene_depth"]
+outputs = ["Texture2D:post_color", "DepthTexture:post_depth"]
+vertex = "shaders/showcase/common/fullscreen.vsh"
+fragment = "shaders/showcase/post/end_tint.fsh"
