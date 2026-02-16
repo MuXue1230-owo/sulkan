@@ -133,7 +133,7 @@ public final class ShaderpackComputeDispatcher {
 				images.add(null);
 				continue;
 			}
-			images.add(IMAGE_POOL.resolve(name, useAlt, extent.width(), extent.height(), VK10.VK_FORMAT_R16G16B16A16_SFLOAT));
+			images.add(IMAGE_POOL.resolve(name, useAlt, extent.width(), extent.height(), VulkanImage.DefaultFormat));
 		}
 		if (images.stream().anyMatch(image -> image == null)) {
 			return;
